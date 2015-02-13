@@ -1,0 +1,45 @@
+<html>
+  <head>
+    <style>
+      img{
+        width: 100%;
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        z-index: -1;
+      }
+    </style>
+    <head>
+  <body>
+    <h1>Let's play a song:</h1>
+    <input type = "text" id = "artist" placeholder= "Enter an artist.">
+    <input type = "text" id = "song" placeholder = "Enter a song title.">
+    <button id = "button">submit</button>
+    </br>
+    </br>
+    <iframe id = "show_track"></iframe>
+    <script>
+    var button = document.getElementById("button")
+    button.addEventListener("click", function(){
+      var artist = document.getElementById("artist").value;
+      var song = document.getElementById("song").value;
+      var artist_replace = artist.replace(" ", "%20");
+      var song_replace = song.replace(" ", "%20");
+      var searchURL = "https://api.spotify.com/v1/search?q=artist:%22" + artist_replace + "%22%20track:%22" + song_replace + "%22&type=track";
+      console.log(searchURL);
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", searchURL);
+      xhr.addEventListener('load', function(e){
+        var d = xhr.responseText;
+        var parsed = JSON.parse(d);
+        var track_ID = parsed.tracks.items[0].id;
+        // var show_track = document.getElementById("show_track");
+        // show_track.src = "https://embed.spotify.com/?uri=spotify:track:" + track_ID;
+        // h1.innerHTML = "Now playing: " + artist + ": " + song;
+
+      });
+      xhr.send();
+    });
+    </script>
+  </body>
+</html>
