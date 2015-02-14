@@ -31,7 +31,7 @@ Now we have three circle tags, but the circles have no attributes, so they're in
                           .style("fill", "#C80000")         //These are almost always going to be hex numbers, even though you could use rgba.
 
 The callback on line 28 (inside the attribute setter) determines the radius. We need the radius to be some number of pixels. But the circles all need to be different sizes, so we'll use a variable for now.
-We need to multiply by 10 merely because nobody's going to see 2 pixels, and we'll be using 2 as one of the numbers later.
+We need to multiply by 10 merely because nobody's going to see 2 pixels, and we may have really small numbers as data points.
 
     svg.selectAll("circle")
         .exit()
