@@ -1,0 +1,38 @@
+Saturday, Feb 14
+
+D3 NOTES
+
+(Note: Neel HipChatted a zip starter file, "bubbelConnection" for this exercise.)
+
+SVG tag in index.html= V stands for "vector". It’s a vector graphic tag. Vectors don’t use pixelation and therefore scale well. This makes D3 smaller, efficient, faster.
+The visualization will happen in this tag.
+
+We’ll grab the SVG tag in the DOM inside a window.onload function, which is in the script.js file. The window onload function guarantees the entire script will be read before this function occurs.
+We can construct a global function that projects the data, but then call the function in the window unload function. We don't want to mess with the visualization by letting the page load on its own.
+
+In order to querySelector elements in the DOM using d3, we use "d3.select(element)". We could use querySelector, but then we wouldn't have access to d3's library.
+
+In order to visualize data, you need to set up the container that will hold the data first:
+
+    var circles = svg.selectAll("circle")
+                        .data(data)         //This weird drop-down, tabbed ".data(data)", etc., is convention. ¯\_(ツ)_/¯
+                        .enter()
+                        .append("circle");
+
+This works because we have access to d3's library, which already knows all about circles. d3 will know how many circles you'll need because you'll be passing in an array of data in your function.
+It'll call .length on that array. We'll pass in an array of three numbers, so d3 will know to make three circles.
+Now we have three circle tags, but the circles have no attributes, so they're invisible for now.
+
+    var circlesAgain = svg.selectAll("circle")
+                        .data(data)
+                          .attr("r", function(d){d*10 + "px"})          //Setting attributes, d3-style. r = radius.
+                          .attr("cx", function(){return Math.random()*100 + "%"})     //cx = center on x axis.
+                          .attr("cy", function(){return Math.random()*100 + "%"})     //cy = center on y axis.
+                          .style("fill", "#C80000")         //These are almost always going to be hex numbers, even though you could use rgba.
+
+The callback on line 28 (inside the attribute setter) determines the radius. We need the radius to be some number of pixels. But the circles all need to be different sizes, so we'll use a variable for now.
+We need to multiply by 10 merely because nobody's going to see 2 pixels, and we'll be using 2 as one of the numbers later.
+
+    svg.selectAll("circle")
+      .exit()
+      .remove();  //This will remove any circles you no longer need after you give the function new data. Otherwise, they hang around.
