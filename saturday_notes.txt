@@ -34,5 +34,26 @@ The callback on line 28 (inside the attribute setter) determines the radius. We 
 We need to multiply by 10 merely because nobody's going to see 2 pixels, and we'll be using 2 as one of the numbers later.
 
     svg.selectAll("circle")
-      .exit()
-      .remove();  //This will remove any circles you no longer need after you give the function new data. Otherwise, they hang around.
+        .exit()
+        .remove();  //This will remove any circles you no longer need after you give the function new data. Otherwise, they hang around.
+
+Here's the winsow onload function:
+
+    window.onload = function(){
+        d3.select("svg")   //only selects one thing
+          .attr('width', '100%')
+          .attr('height', '75%')
+          .style('border', '1px solid black')
+      };
+
+    setInterval(function(){
+      var arr = [
+        Math.floor(Math.random()*10),
+        Math.floor(Math.random()*10),
+        Math.floor(Math.random()*10),
+      ]
+      projectData (arr), 1000);  //We want three circles. This will generate three randomly-sized circles every second!
+
+    };
+
+Now our SVG has a cute border and three randomly-sized circles that show up on randomized axes every one second.
