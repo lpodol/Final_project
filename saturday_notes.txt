@@ -25,10 +25,14 @@ Now we have three circle tags, but the circles have no attributes, so they're in
 
     var circlesAgain = svg.selectAll("circle")
                         .data(data)
-                          .attr("r", function(d){d*10 + "px"})          //Setting attributes, d3-style. r = radius.
+                          .style("fill", "#C80000")         //These are almost always going to be hex numbers, even though you could use rgba.
+                          .style("opacity", function(){return Math.random()})     //let's just randomize everything, why not.
+                        .transition()
+                        .duration(1000)  //wanna see some fancy transition shit?
+                          .attr("r", function(d){return d*10 + "px"})          //Setting attributes, d3-style. r = radius.
                           .attr("cx", function(){return Math.random()*100 + "%"})     //cx = center on x axis.
                           .attr("cy", function(){return Math.random()*100 + "%"})     //cy = center on y axis.
-                          .style("fill", "#C80000")         //These are almost always going to be hex numbers, even though you could use rgba.
+
 
 The callback on line 28 (inside the attribute setter) determines the radius. We need the radius to be some number of pixels. But the circles all need to be different sizes, so we'll use a variable for now.
 We need to multiply by 10 merely because nobody's going to see 2 pixels, and we may have really small numbers as data points.
@@ -42,7 +46,7 @@ Here's the winsow onload function:
     window.onload = function(){
         d3.select("svg")   //only selects one thing
           .attr('width', '100%')
-          .attr('height', '75%')
+          .attr('height', '500px')
           .style('border', '1px solid black')
       };
 
@@ -52,8 +56,24 @@ Here's the winsow onload function:
         Math.floor(Math.random()*10),
         Math.floor(Math.random()*10),
       ]
-      projectData (arr), 1000);  //We want three circles. This will generate three randomly-sized circles every second!
+      projectData(arr), 1000);  //We want three circles. This will generate three randomly-sized circles every second!
 
     };
 
 Now our SVG has a cute border and three randomly-sized circles that show up on randomized axes every one second.
+
+We want our circles to be random colors, too. Luckily we have a crayola.js script. Let's add the below to the top of our script.js:
+
+    function sample(array){
+        var index = Math.floor(array.length * Math.random());
+        var element = array[index]
+        return element
+    };                    //we made our own sample function!
+
+
+Let's add remove our .style fill line and replace it with this:
+      .style("fill", function(){return sample(crayola).hex} )         //we called our sample function on the crayola.js file.
+
+Now everything is amazing. See our final product here:
+
+http://i.imgur.com/zentuRL.gif
